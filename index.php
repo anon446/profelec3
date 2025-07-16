@@ -1,12 +1,17 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // MySQL connection info
 $host = 'group4moviessqlserver.mysql.database.azure.com';
 $username = 'g4admin';
 $password = 'MovieCloud@2025'; // replace with your real password
 $dbname = 'movie_db';
 
-// Create connection
-$conn = new mysqli($host, $username, $password, $dbname, 3306);
+// Create connection with SSL
+$conn = mysqli_init();
+$conn->ssl_set(NULL, NULL, __DIR__ . '/DigiCertGlobalRootCA.crt.pem', NULL, NULL);
+$conn->real_connect($host, $username, $password, $dbname, 3306, NULL, MYSQLI_CLIENT_SSL);
 
 // Check connection
 if ($conn->connect_error) {
